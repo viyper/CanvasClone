@@ -1,0 +1,131 @@
+﻿body {
+    background-color: #ffffff;
+    margin: 0;
+    text-align: center;
+}
+div {
+    text-align: center;
+}
+h2 {
+    margin: 0.2em;
+    font-size: 20px;
+    padding-inline-end:30px;
+}
+.toDoType{
+    grid-area: tdt;
+}
+.toDoName{
+    grid-area: tdn;
+}
+.toDoClass{
+    grid-area: tdc;
+}
+.toDoDue{
+    grid-area: tdd;
+}
+.announcmentTitle{
+    grid-area: at;
+}
+.announcementClass{
+    grid-area: ac;
+}
+.announcementDate{
+    grid-area: ad;
+}
+.sideBarWrapper{
+    grid-area: sb;
+}
+.classesWrapper {
+    grid-area: c;
+    display: grid;
+    grid-template-areas:
+        'cn cn cn';
+    gap: 10px;
+}
+    .classesWrapper > div {
+        background-color: rgba(255, 255, 255, 0.8);
+        text-align: center;
+        padding: 20px 0;
+        font-size: 10px;
+    }
+.toDoWrapper {
+    grid-area: td;
+    display: grid;
+    grid-template-areas:
+        'tdt tdn tdc tdd';
+    gap: 10px;
+}
+    .toDoWrapper > div {
+        background-color: rgba(255, 255, 255, 0.8);
+        text-align: center;
+        padding: 20px 0;
+        font-size: 30px;
+    }
+.announcementWrapper {
+    grid-area: a;
+    display: grid;
+    grid-template-areas:
+        'at ac ad'
+        'at ac ad'
+        'at ac ad';
+    gap: 5px;
+}
+    .announcementsWrapper > div {
+        background-color: rgba(255, 255, 255, 0.8);
+      text-align: center;
+      padding: 10px 0;
+      font-size: 30px;
+    }
+
+.main {
+    display: grid;
+    object-fit: fill;
+    grid-template-areas:
+        'sb c c c c c c a a a'
+        'sb c c c c c c a a a'
+        'sb td td td td td td a a a'
+        'sb td td td td td td a a a';
+        gap: 10px;
+    background-color: #2196F3;
+    padding: 10px;
+}
+
+    .main > div {
+        background-color: rgba(255, 255, 255, 0.8);
+        text-align: center;
+        padding: 20px 0;
+        font-size: 30px;
+    }
+
+/*div {
+    display: flex;
+    flex:auto;
+}
+
+#main {
+    height: 100%;
+    width: 100%;
+    
+}
+
+.classesWrapperWrapper {
+    align-items: center;
+    flex-grow: 2;
+    height: 50%;
+}
+.toDoWrapper {
+    align-self: end;
+    align-items: center;
+    height: 50%;
+}
+
+#classes {
+    flex-flow: column;
+}
+
+.sideBarWrapper{
+    color: aqua;
+    flex-direction: column;
+    height: 100%;
+    flex-grow: 1;
+}*/
