@@ -5,27 +5,67 @@
     <meta charset="utf-8" />
     <title>Borgus</title>
     <link rel="stylesheet" href="style.css"/>
-    <script src="mainScript.js" type="module"></script>
+    <script src="mainScript.js" type="module" defer></script>
 </head>
 <body>
     <div class="main">
         <div class="sidebarWrapper">
         </div>
-        <div class="classesWrapper" id="classesWrapper">
+        <div id="classesWrapperWrapper">
             <h2>Classes</h2>
-            <h2>Grade</h2>
-            <h2>Teacher</h2>
+            <div class="classesWrapper" id="classesWrapper">
+                <h2>Classes</h2>
+                <h2>Custom</h2>
+                <h2>Teacher</h2>
+            </div>
         </div>
-        <div class="toDoWrapper">
-            <div class="toDoType"><h2>Type</h2></div>
-            <div class="toDoName"><h2>Title</h2></div>
-            <div class="toDoClass"><h2>Class</h2></div>
-            <div class="toDoDue"><h2>Due</h2></div>
+        <div id="toDoWrapperWrapper">
+            <h2>TODO</h2>
+                <div id="toDoWrapper" class="toDoWrapper">
+                    <div>
+                        <h2>Assignment Type Filters</h2>
+                        <input type="checkbox" id="Toggle Type" value="Toggle Type" class="assignmentTypeFilter">
+                        <label for="Toggle Type">Toggle Filters</label>
+                        <br />
+                        <input type="checkbox" id="Hide No Type" value="Hide No Type" class="assignmentTypeFilter">
+                        <label for="Hide No Type">Hide No Assignment Types</label>
+                        <br />
+                        <input type="checkbox" id="Hide Paper" value="Hide Paper" class="assignmentTypeFilter">
+                        <label for="Hide Paper Assignemnts">Hide Paper Assignemnts</label>
+                        <br />
+                    </div>
+                    <div>
+                        <h2>Assignment Param Filters</h2>
+                        <input type="checkbox" id="Toggle Param" value="Toggle Param" class="assignmentParamFilter">
+                        <label for="Toggle Param">Toggle Filters</label>
+                        <br />
+                        <input type="checkbox" id="Hide No Param" value="Hide No Param" class="assignmentParamFilter">
+                        <label for="Hide No Param">Hide No Assignments</label>
+                        <br />
+                        <input type="checkbox" id="Hide Submitted" value="Hide Submitted" class="assignmentParamFilter">
+                        <label for="Hide Submitted Assignments">Hide Submitted Assignments</label>
+                        <br />
+                        <input type="checkbox" id="Hide Graded" value="Hide Graded" class="assignmentParamFilter">
+                        <label for="Hide Graded Assignments">Hide Graded Assignments</label>
+                        <br />
+                        <input type="checkbox" id="Hide Unsubmitted" value="Hide Unsubmitted" class="assignmentParamFilter">
+                        <label for="Hide Unsubmitted Assignments">Hide Unsubmitted Assignments</label>
+                    </div>
+                    <div></div>
+                    <div></div>
+                    <h2>Type</h2>
+                    <h2>Title</h2>
+                    <h2>Class</h2>
+                    <h2>Due</h2>
+                </div>
         </div>
-        <div class="announcementWrapper">
-            <div class="announcementTitle"><h2>Title</h2></div>
-            <div class="announcementClass"><h2>Class</h2></div>
-            <div class="announcementDate"><h2>Published</h2></div>
+        <div id="announcementsWrapperWrapper">
+            <h2>Announcements</h2>
+            <div class="announcementWrapper">
+                <div class="announcementTitle"><h2>Title</h2></div>
+                <div class="announcementClass"><h2>Class</h2></div>
+                <div class="announcementDate"><h2>Published</h2></div>
+            </div>
         </div>
 
     </div>

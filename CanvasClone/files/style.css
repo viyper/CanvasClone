@@ -3,15 +3,23 @@
     margin: 0;
     text-align: center;
 }
+.className {
+    font-size: 14px !important;
+}
 div {
     text-align: center;
 }
 h2 {
     margin: 0.2em;
     font-size: 20px;
-    padding-inline-end:30px;
+    padding-inline-end: 10px;
+    padding-inline-start: 10px;
 }
-.toDoType{
+#toDoWrapperWrapper {
+    grid-area: td;
+    place-content: center;
+}
+.toDoType {
     grid-area: tdt;
 }
 .toDoName{
@@ -23,7 +31,10 @@ h2 {
 .toDoDue{
     grid-area: tdd;
 }
-.announcmentTitle{
+.announcementsWrapperWrapper {
+    place-content: center; 
+}
+.announcmentTitle {
     grid-area: at;
 }
 .announcementClass{
@@ -40,27 +51,52 @@ h2 {
     display: grid;
     grid-template-areas:
         'cn cn cn';
-    gap: 10px;
+    gap: 0px;
 }
     .classesWrapper > div {
         background-color: rgba(255, 255, 255, 0.8);
         text-align: center;
-        padding: 20px 0;
+        padding: 7px;
         font-size: 10px;
     }
 .toDoWrapper {
-    grid-area: td;
     display: grid;
     grid-template-areas:
         'tdt tdn tdc tdd';
-    gap: 10px;
+    gap: 0;
 }
     .toDoWrapper > div {
         background-color: rgba(255, 255, 255, 0.8);
         text-align: center;
         padding: 20px 0;
-        font-size: 30px;
+        font-size: 14px;
     }
+.assignmentSubmitted {
+    color: green;
+}
+.assignmentLate {
+    color: darkred;
+    text-decoration: underline;
+}
+.assignmentPaper {
+    text-decoration: line-through;
+}
+.assignmentLocked {
+    text-decoration: wavy;
+    color: darkblue;
+}
+.assignmentGraded {
+    color: green;
+    text-decoration: line-through;
+}
+.hidden {
+    display: none;
+}
+.filtersActive {
+    display: flex;
+    background-color: gray;
+    text-align: center;
+}
 .announcementWrapper {
     grid-area: a;
     display: grid;
@@ -68,7 +104,7 @@ h2 {
         'at ac ad'
         'at ac ad'
         'at ac ad';
-    gap: 5px;
+    gap: 0;
 }
     .announcementsWrapper > div {
         background-color: rgba(255, 255, 255, 0.8);
@@ -96,36 +132,3 @@ h2 {
         padding: 20px 0;
         font-size: 30px;
     }
-
-/*div {
-    display: flex;
-    flex:auto;
-}
-
-#main {
-    height: 100%;
-    width: 100%;
-    
-}
-
-.classesWrapperWrapper {
-    align-items: center;
-    flex-grow: 2;
-    height: 50%;
-}
-.toDoWrapper {
-    align-self: end;
-    align-items: center;
-    height: 50%;
-}
-
-#classes {
-    flex-flow: column;
-}
-
-.sideBarWrapper{
-    color: aqua;
-    flex-direction: column;
-    height: 100%;
-    flex-grow: 1;
-}*/

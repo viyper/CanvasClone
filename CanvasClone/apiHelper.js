@@ -31,7 +31,8 @@ const fetchAllRateLimited = limiter.wrap(fetchAll);
 
 const getCoursesByUser = (domain, token, userID) => fetchAllRateLimited(domain + `/users/${userID}/courses`, token);
 const getCourseTeachers = (domain, token, courseID) => fetchAllRateLimited(domain + `/courses/${courseID}/users?enrollment_type=TeacherEnrollment`, token);
-//const getCourseTeachers = (domain, token, courseID) => fetchAllRateLimited(domain + `/search/recipients?search=&per_page=20&permissions[]=send_messages_all&messageable_only=true&synthetic_contexts=true&context=course_${courseID}_teachers`, token);
+const getCourseAssignments = (domain, token, courseID) => fetchAllRateLimited(domain + `/courses/${courseID}/assignments?order_by=due_at&include[]=submission`, token);
+const getCourseByID = (domain, token, courseID) => fetchAllRateLimiter(domain + `/courses/${courseID}`, token);
 
 module.exports =  {
     "fetch": fetch,
@@ -39,5 +40,7 @@ module.exports =  {
     "fetchAll": fetchAll,
     "fetchAllRateLimited": fetchAllRateLimited,
     "getCoursesByUser": getCoursesByUser,
-    "getCourseTeachers": getCourseTeachers
+    "getCourseTeachers": getCourseTeachers,
+    "getCourseAssignments": getCourseAssignments,
+    "getCourseByID": getCourseByID
 }
