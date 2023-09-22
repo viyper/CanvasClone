@@ -1,9 +1,12 @@
 var classesWrapper = document.getElementById("classesWrapper");
 var toDoWrapper = document.getElementById("toDoWrapper");
 var hideParamsElements = document.getElementsByClassName("assignmentParamFilter");
+let paramFilterActive = new Array();
 var hideTypeElements = document.getElementsByClassName("assignmentTypeFilter");
-var courseFilterDiv = document.getElementById("assignmentCourseFilterDiv");
+let typeFilterActive = new Array();
 var hideCourseElements = document.getElementsByClassName("assignmentCourseFilter");
+let courseFilterActive = new Array();
+var courseFilterDiv = document.getElementById("assignmentCourseFilterDiv");
 let clickDivs;
 let classesDict = new Array();
 let ids = new Array();
@@ -12,6 +15,7 @@ let badID = new Array();
 let names = new Array();
 let months = new Array("January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "Novemeber", "December");
 let selectFilterVals = new Array();
+let notHiddenAssignments = new Array();
 
 function fillRequestHeader(req) {
     req.setRequestHeader("domain", getCookie("domain"));
@@ -20,11 +24,11 @@ function fillRequestHeader(req) {
 
 window.onload = () => {   
     //Assignment Type Filter
-    makeFilter(hideTypeElements, "Type");
+    makeFilter(hideTypeElements, typeFilterActive);
     //Assignment Name Filter Will go here
 
     //Assignment Params Filter
-    makeFilter(hideParamsElements, "Param");
+    makeFilter(hideParamsElements, paramFilterActive);
     //Get Course Names and add to page 
     let x = new XMLHttpRequest();
     x.open("GET", 'coursesByUser/self');
@@ -81,8 +85,8 @@ window.onload = () => {
             z.open("GET", `getCourseTeachers/${ids[i]}`);
             fillRequestHeader(z);
             z.onload = () => {
-                if (z.response == "error") {
-                    badID += ids[i];
+                if (z.response === "error") {
+                    badID.push(ids[i]);
                     for (let f = 0; f < classesDict.length; f++) {
                         if (classesDict[f].split(";")[1].split("=")[1] == ids[i]) {
                             classesDict.splice(f, 1);
@@ -126,9 +130,12 @@ window.onload = () => {
                         let day = d[2].slice(0, 2);
                         let year = d[0];
                         let mString = months[month];
-                        if (badID.includes(i)) {
-                            console.log("bad");
+                        if (badID.includes(assignments[p].course_id)) {
+                            //console.log("bad");
+                            //console.log(badID);
+                            //console.log(assignments[p]);
                         } else {
+                            //notHiddenAssignments.push(assignments[p]);
                             var typeDiv = document.createElement('div');
                             typeDiv.id = `assignment_${assignments[p].id}_Type`;
                             typeDiv.className = `assignmentType assignment${assignments[p].course_id}`;
@@ -197,6 +204,10 @@ window.onload = () => {
                             toDoWrapper.appendChild(nameDiv);
                             toDoWrapper.appendChild(classDiv);
                             toDoWrapper.appendChild(dueDiv);
+                            notHiddenAssignments.push(typeDiv);
+                            notHiddenAssignments.push(nameDiv);
+                            notHiddenAssignments.push(classDiv);
+                            notHiddenAssignments.push(dueDiv);
                             typeDiv.addEventListener("click", function () {
                                 console.log(typeDiv);
                                 window.open(this.attributes.href.value, '_blank');
@@ -234,7 +245,7 @@ window.onload = () => {
             }
         }
         hideCourseElements = document.getElementsByClassName("assignmentCourseFilter");
-        makeFilter(hideCourseElements, "Course");
+        makeFilter(hideCourseElements, courseFilterActive);
     }
     x.send();
 };
@@ -326,42 +337,103 @@ function findLabel(el) {
     }
 }*/
 
+// elementList: filters in section
 function makeFilter(elementList, activeList) {
     for (let i = 0; i < elementList.length; i++) {
-        elementList[i].addEventListener("click", bigFilter(elementList, activeList, elementList[i]));
+        elementList[i].addEventListener("click", function () {
+            bigFilter(elementList, activeList, elementList[i]);
+            
+        });
     }
 }
 function bigFilter(elementList, activeList, self) {
-    for (let i = 0; i < elementList.length; i++) {
-        switch (elementList.value) {
-            case "None":
-                filterNone(elementList, activeList);
-                break;
-            case "Toggle":
-                filterToggle(elementList, activeList);
-                break;
-            default:
-                otherFilter(elementList, activeList, self);
+    //console.log(elementList);
+    switch (self.value.split(" ")[1]) {
+        case "No":
+            filterNone(elementList, activeList, self);
+            break;
+        case "Toggle":
+            filterToggle(elementList, activeList, self);
+            break;
+        default:
+            otherFilter(elementList, activeList, self);
         }
-    }
 }
-function filterNone(elementList, activeList) {
+function filterNone(elementList, activeList, self) {
+    self.checked = false;
     for (let i = 0; i < activeList.length; i++) {
         activeList[i].classList.remove("hidden");
     }
-    elementList.filter((element) => {
-        if (element.checked) {
-            element.checked = false;
+    for (let i = 0; i < elementList.length; i++) {
+        let element = elementList[i];
+        if (element.value.split(" ")[1] != "Toggle" && element.value.split(" ")[1] != "No") {
+            if (element.checked) {
+                element.checked = false;
+            }
         }
-    });
+    }
 }
-function filterToggle(elementList, activeList) {
-
+function filterToggle(elementList, activeList, self) {
+    self.checked = !self.checked;
+    for (let i = 0; i < elementList.length; i++) {
+        let self = elementList[i];
+        if (self.value.split(" ")[1] != "Toggle" && self.value.split(" ")[1] != "No") {
+            let temp = new Array();
+            if (self.checked) {
+                self.checked = !self.checked;
+                activeList.filter((active) => {
+                    if (active.classList.value.includes("assignment" + self.value.split(" ")[1])) {
+                        active.classList.remove("hidden");
+                        notHiddenAssignments.push(active);
+                        temp.push(active);
+                    }
+                });
+                for (let i = 0; i < temp.length; i++) {
+                    activeList.splice(activeList.indexOf(temp[i]), 1);
+                }
+            } else {
+                self.checked = !self.checked;
+                notHiddenAssignments.filter((assignment) => {
+                    if (assignment.classList.value.includes("assignment" + self.value.split(" ")[1])) {
+                        assignment.classList.add("hidden");
+                        activeList.push(assignment);
+                        temp.push(assignment);
+                        //console.log(assignment);
+                    }
+                });
+                for (let i = 0; i < temp.length; i++) {
+                    notHiddenAssignments.splice(notHiddenAssignments.indexOf(temp[i]), 1);
+                }
+                //console.log(temp);
+            }
+        }
+    }
 }
 function otherFilter(elementList, activeList, self) {
-    if (self.checked) {
-        activeList
+    let temp = new Array();
+    if (!self.checked) {
+        activeList.filter((active) => {
+            if (active.classList.value.includes("assignment" + self.value.split(" ")[1])) {
+                active.classList.remove("hidden");
+                notHiddenAssignments.push(active);
+                temp.push(active);
+            }
+        });
+        for (let i = 0; i < temp.length; i++) {
+            activeList.splice(activeList.indexOf(temp[i]), 1);
+        }
     } else {
-
+        notHiddenAssignments.filter((assignment) => {
+            if (assignment.classList.value.includes("assignment" + self.value.split(" ")[1])) {
+                assignment.classList.add("hidden");
+                activeList.push(assignment);
+                temp.push(assignment);
+                //console.log(assignment);
+            }
+        });
+        for (let i = 0; i < temp.length; i++) {
+            notHiddenAssignments.splice(notHiddenAssignments.indexOf(temp[i]), 1);
+        }
+        //console.log(temp);
     }
 }
