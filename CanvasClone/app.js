@@ -1,30 +1,30 @@
 'use strict';
 const express = require('express')
-//require('dotenv').config()
 
 const { getCoursesByUser, getCourseTeachers, getCourseAssignments } = require('./apiHelper.js')
 
 const app = express()
 const port = 3000
+const publicFilesDirectory = __dirname + "/files/";
+
+// Based on https://security.stackexchange.com/a/201519
+function sanitizePath(path) {
+    return path.split('/') // Break down into each directory/file access
+        .filter((part) => !(['', '.', '..'].includes(part))) // Reject unsafe path components
+        .join('/'); // Rejoin path
+}
 
 app.get('/dashboard', (req, res) => {
     res.sendFile('files/mainPage.html', { root: __dirname });
 });
-app.get('/style.css', (req, res) => {
-    res.sendFile('files/style.css', { root: __dirname });
-});
 
-app.get('/mainScript.js', (req, res) => {
-    res.sendFile('files/mainScript.js', { root: __dirname });
-});
 app.get('/', (req, res) => {
     res.sendFile('files/login.html', { root: __dirname });
 });
-app.get('/loginPage.js', (req, res) => {
-    res.sendFile('files/loginPage.js', { root: __dirname });
-});
-app.get('/login.css', (req, res) => {
-    res.sendFile('files/login.css', { root: __dirname });
+
+app.get('/:path$', (req, res) => {
+    let sanitizedPath = sanitizePath(req.params.path);
+    res.sendFile(publicFilesDirectory + sanitizedPath);
 });
 
 app.get('/coursesByUser/:userID/', (req, res) => {
